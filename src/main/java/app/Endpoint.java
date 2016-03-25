@@ -43,7 +43,6 @@ public class Endpoint {
         do {
             Response resp = client.target(link).request().get();
             String json = resp.readEntity(String.class);
-            System.out.println(json);
             try (JsonReader reader = Json.createReader(new StringReader(json))) {
                 JsonArray array = reader.readArray();
                 for (JsonValue element : array) {
@@ -52,6 +51,8 @@ public class Endpoint {
                     int number = object.getInt("number");
                     issues.add(new Issue(title, number));
                 }
+            } catch (RuntimeException e) {
+                throw new RuntimeException(json, e);
             }
             link = resp.getLink("next");
         } while (link != null);
