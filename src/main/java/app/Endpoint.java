@@ -43,6 +43,7 @@ public class Endpoint {
         do {
             Response resp = client.target(link).request().get();
             String json = resp.readEntity(String.class);
+            System.out.println(json);
             try (JsonReader reader = Json.createReader(new StringReader(json))) {
                 JsonArray array = reader.readArray();
                 for (JsonValue element : array) {
