@@ -59,7 +59,7 @@ public class Endpoint {
             link = resp.getLink("next");
         } while (link != null);
 
-        List<Reaction> reactions = issues.stream().parallel().map(issue -> {
+        List<Reaction> reactions = issues.stream().map(issue -> {
             String html = issue.getHtml(client);
             Integer count = Reaction.findReaction(html);
             return new Reaction(issue, count);
