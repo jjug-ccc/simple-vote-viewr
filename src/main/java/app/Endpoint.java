@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -41,7 +42,8 @@ public class Endpoint {
                 .fromUri("https://api.github.com/repos/jjug-ccc/call-for-paper-2016spring/issues")
                 .build();
         do {
-            Response resp = client.target(link).request().get();
+            Response resp = client.target(link).request()
+                    .header(HttpHeaders.USER_AGENT, "voteviewer").get();
             String json = resp.readEntity(String.class);
             try (JsonReader reader = Json.createReader(new StringReader(json))) {
                 JsonArray array = reader.readArray();

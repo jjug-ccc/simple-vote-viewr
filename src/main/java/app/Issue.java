@@ -2,6 +2,7 @@ package app;
 
 import javax.json.stream.JsonGenerator;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.core.HttpHeaders;
 
 public class Issue {
 
@@ -15,7 +16,8 @@ public class Issue {
 
     public String getHtml(Client client) {
         String url = "https://github.com/jjug-ccc/call-for-paper-2016spring/issues/" + number;
-        return client.target(url).request().get(String.class);
+        return client.target(url).request().header(HttpHeaders.USER_AGENT, "voteviewer")
+                .get(String.class);
     }
 
     public void writeJson(JsonGenerator gen) {
