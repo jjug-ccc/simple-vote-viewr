@@ -44,7 +44,7 @@ public class Endpoint {
 
     @Path("issues")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public StreamingOutput get() {
         return out -> {
             try (JsonGenerator gen = Json.createGenerator(out)) {
