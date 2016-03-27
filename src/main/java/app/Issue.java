@@ -1,5 +1,6 @@
 package app;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -64,7 +65,8 @@ public class Issue {
                 }
             }
             return new Issue(title, number, reaction);
-        }).collect(Collectors.toList());
+        }).sorted(Comparator.comparing((Issue x) -> x.reaction != null)
+                .thenComparing(c -> c.reaction).reversed()).collect(Collectors.toList());
 
         return issues;
     }
