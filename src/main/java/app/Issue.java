@@ -65,8 +65,8 @@ public class Issue {
                 }
             }
             return new Issue(title, number, reaction);
-        }).sorted(Comparator.comparing((Issue x) -> x.reaction != null)
-                .thenComparing(c -> c.reaction).reversed()).collect(Collectors.toList());
+        }).sorted(Comparator.comparing(x -> x.reaction,
+                Comparator.nullsLast(Comparator.naturalOrder()))).collect(Collectors.toList());
 
         return issues;
     }
