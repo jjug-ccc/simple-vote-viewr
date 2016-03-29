@@ -66,7 +66,7 @@ public class Issue {
             }
             return new Issue(title, number, reaction);
         }).sorted(Comparator.comparing(x -> x.reaction,
-                Comparator.nullsLast(Comparator.naturalOrder()))).collect(Collectors.toList());
+                Comparator.nullsLast(Comparator.reverseOrder()))).collect(Collectors.toList());
 
         return issues;
     }
