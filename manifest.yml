@@ -1,0 +1,4 @@
+applications:
+  - name: cfp-jjugccc16fall
+    buildpack: java_buildpack
+    path: target/voteviewer-0.0.1-SNAPSHOT.jar
