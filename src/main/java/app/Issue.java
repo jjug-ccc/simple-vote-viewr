@@ -29,7 +29,7 @@ public class Issue {
     }
 
     public String getHtml(Client client) {
-        String url = "https://github.com/jjug-ccc/call-for-paper-2016spring/issues/" + number;
+        String url = "https://github.com/jjug-ccc/call-for-paper-2016fall/issues/" + number;
         return client.target(url).request().header(HttpHeaders.USER_AGENT, "voteviewer")
                 .get(String.class);
     }
@@ -37,7 +37,7 @@ public class Issue {
     public void writeJson(JsonGenerator gen) {
         gen.writeStartObject();
         gen.write("title", title);
-        gen.write("url", "https://github.com/jjug-ccc/call-for-paper-2016spring/issues/" + number);
+        gen.write("url", "https://github.com/jjug-ccc/call-for-paper-2016fall/issues/" + number);
         if (reaction != null) {
             gen.write("count", reaction);
         } else {
@@ -50,7 +50,7 @@ public class Issue {
         Client client = ClientBuilder.newClient();
 
         List<Issue> issues = IntStream.rangeClosed(1, 40).mapToObj(number -> {
-            String url = "https://github.com/jjug-ccc/call-for-paper-2016spring/issues/" + number;
+            String url = "https://github.com/jjug-ccc/call-for-paper-2016fall/issues/" + number;
             String html = client.target(url).request().header(HttpHeaders.USER_AGENT, "voteviewer")
                     .get(String.class);
             Document doc = Jsoup.parse(html);
