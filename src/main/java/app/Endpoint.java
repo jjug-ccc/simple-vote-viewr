@@ -33,9 +33,9 @@ public class Endpoint {
     public void updateCache() {
         System.out.println("cache");
         cache.set(Issue.buildIssues());
+        System.out.println("done");
     }
 
-    @Path("issues")
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public StreamingOutput get() {
