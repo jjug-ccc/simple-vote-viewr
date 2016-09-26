@@ -1,15 +1,13 @@
 package app;
 
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedScheduledExecutorService;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
 import javax.ws.rs.GET;
@@ -18,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-@ApplicationScoped
+@Component
 @Path("")
 public class Endpoint {
 
@@ -28,18 +26,13 @@ public class Endpoint {
     //        return null;
     //    }
 
-    private AtomicReference<List<Issue>> cache;
+    private AtomicReference<List<Issue>> cache = new AtomicReference<>(Collections.emptyList());
 
-    @Resource
-    private ManagedScheduledExecutorService executor;
 
-    @PostConstruct
-    public void init() {
-        cache = new AtomicReference<>();
-    }
-
-    public void init(@Observes @Initialized(ApplicationScoped.class) Object context) {
-        executor.scheduleAtFixedRate(() -> cache.set(Issue.buildIssues()), 0, 1, TimeUnit.HOURS);
+    @Scheduled(fixedRate = 60 * 60 * 1000)
+    public void updateCache() {
+        System.out.println("cache");
+        cache.set(Issue.buildIssues());
     }
 
     @Path("issues")
