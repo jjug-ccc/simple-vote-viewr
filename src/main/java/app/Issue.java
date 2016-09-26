@@ -49,7 +49,7 @@ public class Issue {
     public static List<Issue> buildIssues() {
         Client client = ClientBuilder.newClient();
 
-        List<Issue> issues = IntStream.rangeClosed(1, 40).mapToObj(number -> {
+        List<Issue> issues = IntStream.rangeClosed(1, 60).mapToObj(number -> {
             String url = "https://github.com/jjug-ccc/call-for-paper-2016fall/issues/" + number;
             String html = client.target(url).request().header(HttpHeaders.USER_AGENT, "voteviewer")
                     .get(String.class);
