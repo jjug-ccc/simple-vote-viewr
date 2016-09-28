@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.PostConstruct;
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
 import javax.ws.rs.GET;
@@ -19,13 +18,6 @@ import javax.ws.rs.core.StreamingOutput;
 @Component
 @Path("")
 public class Endpoint {
-
-    //    @GET
-    //    @Produces(MediaType.TEXT_HTML)
-    //    public String index() {
-    //        return null;
-    //    }
-
     private AtomicReference<List<Issue>> cache = new AtomicReference<>(Collections.emptyList());
 
 
