@@ -3,11 +3,13 @@ package app;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
 @SpringBootApplication
 @EnableScheduling
+@ServletComponentScan
 public class VoteviewerApplication {
 	@Component
 	static class JerseryConfig extends ResourceConfig {
