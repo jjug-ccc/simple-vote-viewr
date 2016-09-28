@@ -28,6 +28,7 @@ public class Endpoint {
         System.out.println("done");
     }
 
+    @Path("issues")
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public StreamingOutput get() {

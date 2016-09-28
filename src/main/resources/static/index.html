@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CfP lists</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.1/css/bulma.min.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/0.2.4/mithril.min.js"></script>
+<script>
+    m.mount(document.getElementById("app"), {
+        controller: function () {
+            var papers = m.request({
+                url: "api/issues"
+            });
+            return {
+                papers: papers
+            }
+        },
+        view: function (ctrl) {
+            var list = ctrl.papers()
+                    .map(function (paper) {
+                        return m("article.message", [
+                            m(".message-body", [
+                                m(".columns", [
+                                    m(".column.is-1", [
+                                        m("a.button", {href: paper.url}, [
+                                            m("span.icon", [
+                                                m("i.fa.fa-thumbs-o-up")
+                                            ]),
+                                            m("span", paper.count || "-")
+                                        ])
+                                    ]),
+                                    m(".column", [
+                                        m("h1", paper.title),
+                                    ])
+                                ])
+                            ])
+                        ]);
+                    });
+            return m(".content", list);
+        }
+    });
+</script>
+</body>
+</html>

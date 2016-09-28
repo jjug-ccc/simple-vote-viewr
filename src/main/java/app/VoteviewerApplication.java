@@ -7,11 +7,14 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.ApplicationPath;
+
 @SpringBootApplication
 @EnableScheduling
 @ServletComponentScan
 public class VoteviewerApplication {
 	@Component
+	@ApplicationPath("api")
 	static class JerseryConfig extends ResourceConfig {
 		public JerseryConfig() {
 			packages(true, "app");
