@@ -3,6 +3,7 @@ package app;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,11 +22,19 @@ public class Issue {
     private final String title;
     private final Integer number;
     private final Integer reaction;
+    private final State state;
 
-    public Issue(String title, Integer number, Integer reaction) {
+    enum State {
+        OPEN,
+        CLOSE,
+        OTHER;
+    }
+
+    public Issue(String title, Integer number, Integer reaction, State state) {
         this.title = title;
         this.number = number;
         this.reaction = reaction;
+        this.state = state;
     }
 
     public String getHtml(Client client) {
@@ -49,7 +58,7 @@ public class Issue {
     public static List<Issue> buildIssues() {
         Client client = ClientBuilder.newClient();
 
-        List<Issue> issues = IntStream.rangeClosed(1, 60).mapToObj(number -> {
+        List<Issue> issues = IntStream.rangeClosed(1, 61).mapToObj(number -> {
             String url = "https://github.com/jjug-ccc/call-for-paper-2016fall/issues/" + number;
             String html = client.target(url).request().header(HttpHeaders.USER_AGENT, "voteviewer")
                     .get(String.class);
@@ -64,10 +73,17 @@ public class Issue {
                     reaction = Integer.parseInt(element.text());
                 }
             }
-            return new Issue(title, number, reaction);
-        }).sorted(Comparator.comparing(x -> x.reaction,
+            String stateString = doc.select("div.state").text();
+            switch (Objects.toString(stateString, "")) {
+                case "Open" :
+                    return new Issue(title, number, reaction, State.OPEN);
+                case "Closed" :
+                    return new Issue(title, number, reaction, State.CLOSE);
+                default : // "Merged Pull Request"
+                    return new Issue(title, number, reaction, State.OTHER);
+            }
+        }).filter(i -> i.state == State.OPEN).sorted(Comparator.comparing(x -> x.reaction,
                 Comparator.nullsLast(Comparator.reverseOrder()))).collect(Collectors.toList());
-
         return issues;
     }
 }
